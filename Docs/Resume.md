@@ -1,6 +1,6 @@
 # Drashi Dave
 
-![Headshot](../headshot.jpeg)
+![Headshot](../headshot1.jpeg)
 
 drashi.a.dave@gmail.com | [LinkedIn](https://linkedin.com/in/drashi-d) | [GitHub](https://github.com/DrashiDave) | +1 2406107447
 
