@@ -86,6 +86,8 @@ Flight is marked as delayed if difference in the scheduled and actual arrival ti
 
 **Regression:** `arr_delay` – continuous delay time in minutes.
 
+Regression predicts the actual delay of a flight in minutes.
+
 **Features:**  
 These features capture the airline, airport, time, flight volume, and causes of delays, which will help the model predict whether a flight will be delayed and estimate the delay duration.
 
