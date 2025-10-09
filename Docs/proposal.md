@@ -29,73 +29,81 @@ Accurate predictions of flight delays help:
 2. If a flight is delayed, can we predict the expected delay duration in minutes?
 3. Which factors (airline, airport, time of year, weather, etc.) contribute most to delays?
 
+<br>
+
 ## Data
 
 **Data Source:**
 
+The dataset was created by downloading monthly flight on-time performance data from the U.S. Department of Transportation’s Bureau of Transportation Statistics (BTS) for the period January 2023 – May 2025.
+
 - U.S. Bureau of Transportation Statistics - On-Time Performance Dataset (Open-source, publicly available):
-  [https://www.transtats.bts.gov/](https://www.transtats.bts.gov/)
+  [https://www.transtats.bts.gov/](https://www.transtats.bts.gov/DL_SelectFields.aspx?gnoyr_VQ=FGJ&QO_fu146_anzr=b0-gvzr)
 - Local Copy (for convenience): Available in this GitHub repository  
-  [https://github.com/DrashiDave/UMBC-DATA606-Capstone/tree/main/data/Airline_Delay_Cause.csv](https://github.com/DrashiDave/UMBC-DATA606-Capstone/tree/main/data/Airline_Delay_Cause.csv)
+  [https://github.com/DrashiDave/UMBC-DATA606-Capstone/blob/main/Data/combined_flight_data.csv](https://github.com/DrashiDave/UMBC-DATA606-Capstone/blob/main/Data/combined_flight_data.csv)
+
+Each monthly ZIP file was extracted and merged using a Python script to create one consolidated dataset for analysis and modeling.
 
 **Data Overview:**
 
-- Dataset size: 16.5 MB
-- Shape: ~100,447 rows × 21 columns
-- Time period: January 2021 – May 2025
-- Each row represents aggregated statistics for one airline at one airport during one month, including flight counts, delays, and causes of delays.
+- Time Period: January 2023 – May 2025
+- Rows: ~4.2 million
+- Columns: 29
+- File Size: ~1.2 GB
+- Each record represents an individual flight’s departure and arrival details with delay indicators and related attributes.
 
 **Column Data Types and Dictionary:**
 
-| Column Name         | Data Type | Definition                                                                                     | Example Values                                     |
-| ------------------- | --------- | ---------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| year                | int       | Year in YYYY format                                                                            | 2025                                               |
-| month               | int       | Month in MM format (1-12)                                                                      | 5                                                  |
-| carrier             | object    | Code assigned by US DOT to identify a unique airline carrier                                   | 9E                                                 |
-| carrier_name        | object    | Unique airline holding and reporting under the same DOT certificate                            | Endeavor Air Inc.                                  |
-| airport             | object    | Three-character airport code issued by US DOT                                                  | ABE                                                |
-| airport_name        | object    | Full name of airport including location                                                        | Allentown/Bethlehem/Easton, PA: Lehigh Valley Intl |
-| arr_flights         | float     | Total number of arriving flights                                                               | 92.0                                               |
-| arr_del15           | float     | Arrival Delay Indicator ≥ 15 min. Difference between actual and scheduled arrival time         | 17.0                                               |
-| carrier_ct          | float     | Number of delays caused by the airline                                                         | 4.8                                                |
-| weather_ct          | float     | Number of delays caused by weather                                                             | 1.24                                               |
-| nas_ct              | float     | Number of delays caused by National Air System                                                 | 4.29                                               |
-| security_ct         | float     | Number of delays caused by security                                                            | 0.0                                                |
-| late_aircraft_ct    | float     | Number of delays caused by late aircraft                                                       | 6.67                                               |
-| arr_cancelled       | float     | Number of cancelled flights                                                                    | 4.0                                                |
-| arr_diverted        | float     | Number of diverted flights                                                                     | 2.0                                                |
-| arr_delay           | float     | Difference in minutes between scheduled and actual arrival time. Early arrivals show negative. | 1834.0                                             |
-| carrier_delay       | float     | Average delay time caused by carrier (minutes)                                                 | 517.0                                              |
-| weather_delay       | float     | Average delay time caused by weather (minutes)                                                 | 555.0                                              |
-| nas_delay           | float     | Average delay time caused by NAS (minutes)                                                     | 283.0                                              |
-| security_delay      | float     | Average delay time caused by security (minutes)                                                | 0.0                                                |
-| late_aircraft_delay | float     | Average delay time caused by late aircraft (minutes)                                           | 479.0                                              |
+| Column Name         | Data Type | Description                                           | Example Value |
+| ------------------- | --------- | ----------------------------------------------------- | ------------- |
+| `Year`              | Integer   | Year of the flight                                    | 2024          |
+| `Month`             | Integer   | Month of the flight (1–12)                            | 5             |
+| `DayofMonth`        | Integer   | Day of the month                                      | 14            |
+| `DayOfWeek`         | Integer   | Day of the week (1 = Monday, 7 = Sunday)              | 3             |
+| `FlightDate`        | Date      | Flight date                                           | 2024-05-14    |
+| `Carrier`           | String    | Airline carrier code                                  | AA            |
+| `Origin`            | String    | Departure airport code                                | JFK           |
+| `Dest`              | String    | Arrival airport code                                  | LAX           |
+| `DepTime`           | Float     | Actual departure time (HHMM, local)                   | 1820          |
+| `CRSDepTime`        | Float     | Scheduled departure time (HHMM, local)                | 1800          |
+| `ArrTime`           | Float     | Actual arrival time (HHMM, local)                     | 2135          |
+| `CRSArrTime`        | Float     | Scheduled arrival time (HHMM, local)                  | 2105          |
+| `DepDelay`          | Float     | Departure delay in minutes (negative = early)         | 20.0          |
+| `ArrDelay`          | Float     | Arrival delay in minutes (negative = early)           | 30.0          |
+| `Cancelled`         | Integer   | Flight cancelled (1 = Yes, 0 = No)                    | 0             |
+| `Diverted`          | Integer   | Flight diverted (1 = Yes, 0 = No)                     | 0             |
+| `Distance`          | Float     | Distance between origin and destination (miles)       | 2475.0        |
+| `AirTime`           | Float     | Actual flight time in minutes                         | 305.0         |
+| `TaxiOut`           | Float     | Taxi-out time before takeoff                          | 18.0          |
+| `TaxiIn`            | Float     | Taxi-in time after landing                            | 10.0          |
+| `CRSElapsedTime`    | Float     | Scheduled total flight duration (minutes)             | 330.0         |
+| `ActualElapsedTime` | Float     | Actual total flight duration (minutes)                | 335.0         |
+| `CarrierDelay`      | Float     | Delay minutes caused by the airline                   | 12.0          |
+| `WeatherDelay`      | Float     | Delay minutes caused by weather                       | 5.0           |
+| `NASDelay`          | Float     | Delay minutes caused by National Air System           | 8.0           |
+| `SecurityDelay`     | Float     | Delay minutes caused by security checks or procedures | 0.0           |
+| `LateAircraftDelay` | Float     | Delay due to previous aircraft arriving late          | 15.0          |
+| `DepDelay15`        | Integer   | 1 if departure delay > 15 minutes, else 0             | 1             |
+| `ArrDelay15`        | Integer   | 1 if arrival delay > 15 minutes, else 0               | 1             |
 
 <!--**Categorical Variables:**
 
 - `carrier_name`: 23 unique values
 - `airport`: 385 unique values-->
+<br>
 
-**Target Variables and Feature Candidates:**
+## Target Variables and Feature Candidates:
 
-**Classification:** `Delayed` – 1 if `arr_delay > 15`, else 0.
+1. Will the flight be delayed?
+   → Binary classification (ArrDelay15 and/or DepDelay15)
 
-Flight is marked as delayed if difference in the scheduled and actual arrival time (`arr_delay`) is more than 15 minutes, otherwise on-time.
+2. If delayed, by how many minutes?
+   → Regression (ArrDelay and/or DepDelay)
 
-> **Note:** The U.S. Bureau of Transportation Statistics defines a flight as “delayed” if it arrives 15 minutes or more after the scheduled time. This threshold is the standard in aviation and ensures your model aligns with real-world definitions.
+<br>
 
-**Regression:** `arr_delay` – continuous delay time in minutes.
-
-Regression predicts the actual delay of a flight in minutes.
-
-**Features:**  
-These features capture the airline, airport, time, flight volume, and causes of delays, which will help the model predict whether a flight will be delayed and estimate the delay duration.
-
-- Airline (`carrier_name`) – patterns of delay for each airline
-- Airport (`airport`) – delays specific to each airport
-- Time (`year`, `month`) – seasonal and yearly trends
-- Flight counts (`arr_flights`) – volume of flights that may influence delays
-- Cause counts (`carrier_ct`, `weather_ct`, `nas_ct`, `security_ct`, `late_aircraft_ct`) – number of delays due to each cause
-- Cancellation/diversion counts (`arr_cancelled`, `arr_diverted`) – disruptions that affect delay patterns
-
-> **Explanation:** These features will allow the model to predict both whether a flight is delayed and the expected delay duration.
+| **Type**                    | **Variable(s)**                                                                                                                                                                                               | **Description**                                            |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Target (Classification)** | `DepDelay15`, `ArrDelay15`                                                                                                                                                                                    | 1 if delay > 15 minutes for departure or arrival, else 0   |
+| **Target (Regression)**     | `DepDelay`, `ArrDelay`                                                                                                                                                                                        | Continuous delay time in minutes for departure and arrival |
+| **Predictors (Features)**   | `AirTime`, `Distance`, `TaxiOut`, `TaxiIn`, `CRSElapsedTime`, `ActualElapsedTime`, `CarrierDelay`, `WeatherDelay`, `NASDelay`, `LateAircraftDelay`, `Year`, `Month`, `DayOfWeek`, `Carrier`, `Origin`, `Dest` | Used to predict both arrival and departure delays          |

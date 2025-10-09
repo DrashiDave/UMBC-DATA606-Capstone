@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ $# -lt 1 ]; then
+    echo "Usage: $0 <script_name.py> [options]"
+    exit 1
+fi
+
+# Navigate to app/scripts
+cd "$(dirname "$0")/App/Scripts" || exit
+
+# Use the current environment's Python
+"$CONDA_PREFIX/bin/python" "$@"
