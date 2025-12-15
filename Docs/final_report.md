@@ -6,7 +6,8 @@
 **GitHub Repository:** [https://github.com/DrashiDave/UMBC-DATA606-Capstone/Data/Airline_Delay_Cause.csv](https://github.com/DrashiDave/UMBC-DATA606-Capstone/Data/Airline_Delay_Cause.csv)  
 **LinkedIn Profile:** [linkedin.com/in/drashi-d](https://www.linkedin.com/in/drashi-d)  
 **PowerPoint Presentation:** [https://umbc-my.sharepoint.com/:p:/g/personal/drashid1_umbc_edu/IQCoLbsvpiUAQ44JQFHHRqQgAYwxCQjTmzcD5KOySLzvdB4?e=8fWlfL](https://umbc-my.sharepoint.com/:p:/g/personal/drashid1_umbc_edu/IQCoLbsvpiUAQ44JQFHHRqQgAYwxCQjTmzcD5KOySLzvdB4?e=8fWlfL)
-**Youtube Link:**[https://youtu.be/la8tpCWnTOQ](https://youtu.be/la8tpCWnTOQ)
+
+**Youtube Link:**[https://www.youtube.com/watch?v=la8tpCWnTOQ](https://www.youtube.com/watch?v=la8tpCWnTOQ)
 
 ---
 
